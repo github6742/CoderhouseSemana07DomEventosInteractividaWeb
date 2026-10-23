@@ -403,9 +403,9 @@ function buscarArticulo(e){
   } else {
     const tagContenido = document.createElement("div");
     tagContenido.id = "idMainContenedorResultados";
-    tagContenido.class = "mainContenedorResultados";
+    tagContenido.className = "mainContenedorResultados";
     //
-    htmlContenido = `<div id="idMainResultados" class="mainResultados>`;
+    htmlContenido = `<div id="idMainResultados" class="mainResultados">`;
     articulosEncontrados.forEach(articulo => {
           htmlContenido += crearCard(articulo);
        }
