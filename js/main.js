@@ -324,162 +324,101 @@ function cargarArticulo(e){
 function crearCard(articulo){
   let contenidoHtml;
   contenidoHtml = `
+            <div id="IdArticuloEncontrado" class="articuloEncontrado">
             <h6>ID: ${articulo.id}</h6>
             <h6>CODIGO: ${articulo.codigo.toUpperCase()}</h6>
             <h6>NOMBRE: ${articulo.nombre.toUpperCase()}</h6>
             <h6>MARCA:  ${articulo.marca.toUpperCase()}</h6>
             <h6>CATEGORIA: ${articulo.categoria.toUpperCase()}</h6>
-            <h6>PRECIO: $${articulo.precio}</h6>`;  
-}
+            <h6>PRECIO: $${articulo.precio}</h6>  
+            </div>`;
+  return contenidoHtml;            
+};
 
 function buscarArticulo(e){
   e.preventDefault();
   const idMenu = e.target.dataset.idMenu;
   console.log(idMenu);
-  let articulo = {};
-  let articulos = [];
   let resultadoBusqueda = false;
   let filtro;
-  /*
-  
-
-function crearListadoArticulosEncontrados(e){
-  e.preventDefault();
-  const tagMain = document.getElementById("idMain");
-  const tagDivContenedorResultadoBuscar = document.getElementById("idContenedorBuscarArticulosResultados");
-  tagDivContenedorResultadoBuscar.innerHTML = "";
-  const tagDivArticulosEncontrados = document.createElement("div");
-  tagDivArticulosEncontrados.id = "idRegistrosEncontrados";
-  tagDivArticulosEncontrados.className = "registrosEncontrados";
-  const idBuscar = parseInt(document.getElementById("idBuscarArticulosId").value);
-  const marcaBuscar = document.getElementById("idBuscarArticulosMarca").value;
-  const categoriaBuscar = document.getElementById("idBuscarArticulosCategoria").value;
-  //
   let articulosEncontrados = [];
-
-  if (listaPrecioArticulos.some(articulo => articulo.id == idBuscar) && (!esString(idBuscar))){
-     let articuloEncontrado = listaPrecioArticulos.find(articulo => articulo.id == idBuscar);
-     articulosEncontrados = [
-        {          
-          id: articuloEncontrado.id,
-          codigo: articuloEncontrado.codigo,
-          nombre: articuloEncontrado.nombre,
-          marca: articuloEncontrado.marca,
-          categoria: articuloEncontrado.categoria,
-          precio: articuloEncontrado.precio
-        }
-      ];
-  };
   //
-  if (articulosEncontrados.length == 0) {
-    if (categoriaBuscar.length > 0){
-       articulosEncontrados = listaPrecioArticulos.filter(
-         articulo => articulo.categoria.toUpperCase() == categoriaBuscar.toUpperCase()
-       );
-    };
-  } else  {
-    if (categoriaBuscar.length > 0) {
-      articulosEncontrados = articulosEncontrados.filter(
-         articulo => articulo.categoria.toUpperCase() == categoriaBuscar.toUpperCase()
-      );
-    };
-  };
-  //
-  if (articulosEncontrados.length == 0) {
-    if (marcaBuscar.length > 0){
-       articulosEncontrados = listaPrecioArticulos.filter(
-         articulo => articulo.marca.toUpperCase().includes(marcaBuscar.toUpperCase())
-       );
-    };
-  } else  {
-    if(marcaBuscar.length > 0) {
-      articulosEncontrados = articulosEncontrados.filter(
-         articulo => articulo.marca.toUpperCase().includes(marcaBuscar.toUpperCase())         
-      );
-    };
-  };
-  //
-  if (esString(idBuscar) && categoriaBuscar.length == 0 && marcaBuscar == 0){
-      listaPrecioArticulos.forEach(articulo => {
-        const registro = document.createElement("div");    
-        registro.id = "idRegistroEncontrado";
-        registro.className = "registroEncontrado";    
-        registro.innerHTML = `
-            <h6>ID: ${articulo.id}</h6>
-            <h6>CODIGO: ${articulo.codigo.toUpperCase()}</h6>
-            <h6>NOMBRE: ${articulo.nombre.toUpperCase()}</h6>
-            <h6>MARCA:  ${articulo.marca.toUpperCase()}</h6>
-            <h6>CATEGORIA: ${articulo.categoria.toUpperCase()}</h6>
-            <h6>PRECIO: $${articulo.precio}</h6>
-        `;        
-        tagDivArticulosEncontrados.appendChild(registro);
-      });
-  } else {
-     if (articulosEncontrados.length == 0){
-        crearMensajeDialog("error", "No se encontraron articulos con esos filtros");
-     } else {
-        articulosEncontrados.forEach(articulo => {
-        const registro = document.createElement("div");    
-        registro.id = "idRegistroEncontrado";
-        registro.className = "registroEncontrado";    
-        registro.innerHTML = `
-            <h6>ID: ${articulo.id}</h6>
-            <h6>CODIGO: ${articulo.codigo.toUpperCase()}</h6>
-            <h6>NOMBRE: ${articulo.nombre.toUpperCase()}</h6>
-            <h6>MARCA:  ${articulo.marca.toUpperCase()}</h6>
-            <h6>CATEGORIA: ${articulo.categoria.toUpperCase()}</h6>
-            <h6>PRECIO: $${articulo.precio}</h6>
-        `;        
-        tagDivArticulosEncontrados.appendChild(registro);
-       });
-     };
-  };
-  //
-  tagDivContenedorResultadoBuscar.appendChild(tagDivArticulosEncontrados);
-  tagMain.appendChild(tagDivContenedorResultadoBuscar);
-};
-
-  */
   switch(idMenu){
     case "idBuscarArticuloPorId":
       filtro = document.getElementById("idBuscarArticuloPorIdInput").value;
       resultadoBusqueda = listaPrecioArticulos.some(articulo => articulo.id == filtro);
       if (resultadoBusqueda){
-         articulo = listaPrecioArticulos.find(articulo => articulo.id == filtro);
+         let articuloEncontrado = listaPrecioArticulos.find(articulo => articulo.id == filtro);
+         articulosEncontrados = [
+         {          
+           id: articuloEncontrado.id,
+           codigo: articuloEncontrado.codigo,
+           nombre: articuloEncontrado.nombre,
+           marca: articuloEncontrado.marca,
+           categoria: articuloEncontrado.categoria,
+           precio: articuloEncontrado.precio
+         }
+         ];
       };
       break;
     case "idBuscarArticuloPorNombre":
       filtro = document.getElementById("idBuscarArticuloPorNombreInput").value.toUpperCase();
-      resultadoBusqueda = listaPrecioArticulos.some(articulo => articulo.nombre.toUpperCase() == filtro);
-      if (resultadoBusqueda){
-         articulo = listaPrecioArticulos.find(articulo => articulo.nombre.toUpperCase() == filtro);
+      articulosEncontrados = listaPrecioArticulos.filter(articulo => articulo.nombre.toUpperCase().includes(filtro.toUpperCase()));
+      if (articulosEncontrados.length > 0){
+         resultadoBusqueda = true;
       };
       break;
     case "idBuscarArticuloPorCategoria":
       filtro = document.getElementById("idBuscarArticuloPorCategoriaSelect").value.toUpperCase();
-      resultadoBusqueda = listaPrecioArticulos.some(articulo => articulo.categoria.toUpperCase() == filtro);
-      if (resultadoBusqueda){
-         articulos = listaPrecioArticulos.forEach(articulo => articulo.categoria.toUpperCase() == filtro);
+      articulosEncontrados = listaPrecioArticulos.filter(articulo => articulo.categoria.toUpperCase().includes(filtro.toUpperCase()));
+      if (articulosEncontrados.length > 0){
+         resultadoBusqueda = true;
       };
       break;
     case "idVerificarExistenciaArticulo":
       filtro = document.getElementById("idBuscarArticuloPorCodigoInput").value.toUpperCase();
-      resultadoBusqueda = listaPrecioArticulos.some(articulo => articulo.codigo.toUpperCase() == filtro);
+      resultadoBusqueda = listaPrecioArticulos.some(articulo => articulo.codigo.toUpperCase() == filtro.toUpperCase());
       if (resultadoBusqueda){
-         articulo = listaPrecioArticulos.find(articulo => articulo.codigo.toUpperCase() == filtro);
+         let articuloEncontrado = listaPrecioArticulos.find(articulo => articulo.codigo.toUpperCase() == filtro.toUpperCase());
+         articulosEncontrados = [
+         {          
+           id: articuloEncontrado.id,
+           codigo: articuloEncontrado.codigo,
+           nombre: articuloEncontrado.nombre,
+           marca: articuloEncontrado.marca,
+           categoria: articuloEncontrado.categoria,
+           precio: articuloEncontrado.precio
+         }
+         ];
       };
       break;
     default:
       break;  
   }
-  console.log("articulo.length: " + articulo.length)
-  console.log("articulos.length: " + articulos.length)
+  console.log("resultadoBusqueda: " + resultadoBusqueda)
+  console.log("articulosEncontrados: " + articulosEncontrados)
+  let htmlContenido;
   if(!resultadoBusqueda){
          crearMensajeDialog("error", "No se encontraron articulos para estos filtros");
-  } else if (articulo.length) {
-    crearCard(articulo);      
   } else {
-    crearCard(articulo);
+    const tagContenido = document.createElement("div");
+    tagContenido.id = "idMainContenedorResultados";
+    tagContenido.class = "mainContenedorResultados";
+    //
+    htmlContenido = `<div id="idMainResultados" class="mainResultados>`;
+    articulosEncontrados.forEach(articulo => {
+          htmlContenido += crearCard(articulo);
+       }
+    );
+    htmlContenido += `</div>`;
+    tagContenido.innerHTML = htmlContenido;
+    if (document.getElementById("idMainContenedorResultados")) {
+      console.log("ya existe")
+       document.getElementById("idMainContenedorResultados").innerHTML = tagContenido.innerHTML;
+    } else {
+      console.log("no  existe contenedor")
+       document.getElementById("idMainContenedorElementos").appendChild(tagContenido);
+    }
   };
 }
 
@@ -567,7 +506,7 @@ function cargarTablaListado(idMenu){
   console.log("cargarTablaListado----: " + idMenu)
   let lista = []; 
   listaPrecioArticulos.forEach(articulo => lista.push(articulo));
-  let htmlContenido;
+  let htmlContenido=` `;
   //
   if (idMenu=="idListarArticulosConDescuento") {
      let valorDescuento = document.getElementById("idListarArticulosDescuento").value;
@@ -595,7 +534,9 @@ function cargarTablaListado(idMenu){
                       </tr>`;
   }); 
   //
-  htmlContenido += `</tbody>`;
+  console.log("-------------------------------------")
+  console.log(htmlContenido)
+  //htmlContenido += `</tbody>`;
   const tagMainListarTbody = document.getElementById("idMainListarTbody");
   tagMainListarTbody.innerHTML = htmlContenido;
 }
@@ -619,7 +560,7 @@ function crearTablaListado(){
                       </tbody>
                      </table>`;
    //
-   //console.log(htmlContenido);
+   console.log(htmlContenido);
    const tagMainListarTableContenedor = document.createElement("div");
    tagMainListarTableContenedor.id = "idMainListarTableContenedor";
    tagMainListarTableContenedor.className= "mainListarTableContenedor";

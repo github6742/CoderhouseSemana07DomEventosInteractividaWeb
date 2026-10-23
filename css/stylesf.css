@@ -1,0 +1,72 @@
+
+.mainContenedor {
+    border: 2px solid dodgerblue;
+    border-radius: 8px; 
+    padding: 10px;
+    /*align-items: center; 
+    justify-items: center;
+    */
+    /* display: flex;
+    flex-direction: column; */
+    /* justify-content: center; */
+    /* align-content: flex-start; */
+}
+.mainContenedorElementos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /*justify-content: center;  Centra el formulario horizontalmente */
+}
+
+.mainTitulo {
+    border: 2px solid green; 
+    text-align: center;
+    color: green;
+    width: 70%;
+}
+
+/******************
+   CLASES MAIN FORMULARIO
+*******************/
+.mainContenedorFormulario {
+     border: 2px solid green;
+    border-radius: 8px; 
+    padding: 10px;
+    width: 70%;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+.mainFormulario {
+    /* border: 2px solid green;
+    border-radius: 8px; */
+    padding: 10px;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+.mainFormularioFila {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 2px solid green;
+    border-radius: 8px; */
+    padding: 10px;
+}
+.mainFormularioFila label{
+    min-width: 10rem;
+    /* border: 2px solid green; */
+    font-size: 1.25rem;
+    color: green;
+}
+.mainFormularioFila input,.mainFormularioFila select{
+    flex: 1;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+.mainFormularioFila select{
+    text-transform: none;
+}
