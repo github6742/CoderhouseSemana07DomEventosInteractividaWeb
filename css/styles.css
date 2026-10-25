@@ -114,7 +114,7 @@ footer {
     font-size: 1.25rem;
     color: green;
 }
-.mainFormularioFila input,.mainFormularioFila select{
+.mainFormularioFila input,.mainFormularioFila select {
     flex: 1;
     border-radius: 5px;
     padding: 0.5rem;
@@ -140,7 +140,6 @@ footer {
     gap: 15px;
     align-content: flex-start;
 }
-
 .articuloEncontrado{
     display: flex;
     background-color: rgb(174, 226, 169);
@@ -161,37 +160,71 @@ footer {
     width: 100%;
     background-color:  #ddeeec;
 }
-.mainListarTableContenedor{
+.mainListado {
+    /* border: 2px solid green;
+    border-radius: 8px;  */
+    padding: 10px;
+}
+
+.mainListadoFila {
+    /* border: 2px solid green;
+    border-radius: 8px;  */
+    /* display: flex;
+    justify-content: flex-start;
+    align-items: center; */
+    padding: 10px;
+    background-color:  #ddeeec;
+    margin-bottom: 10px;
+}
+/*
+.mainListadoFila label{
+    min-width: 10rem;
+    font-size: 1.25rem;
+    color: green;
+}
+.mainListadoFila label{
+    flex: 1;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+*/
+
+
+.mainContenedorListado{
     /* border: 2px solid green; */
     border-radius: 8px;  
     padding: 10px;
 }
-.mainListarArticulosTable{    
+
+/*.mainListarArticulosTable{  */
+.mainListadoTable{    
     /* background-color: red; */
     width: 100%;
     margin-top: 10px;
     border-radius: 8px;
 }
-.mainListarArticulosTable th, .mainListarArticulosTable td
+.mainListadoTable th, .mainListardoTable td
 {
     padding: 12px 15px;
     text-align: left;
 }
-.mainListarArticulosTable th {
+.mainListadoTable th {
     background-color: green;
     color: white;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 14px;
 }
-.mainListarArticulosTable tbody tr:nth-child(even) 
+.mainListadoTable tbody tr:nth-child(even) 
 {
     background-color: rgb(185, 206, 191);
 }
-.mainListarThead tr th:last-child {
+.mainListadoThead tr th:last-child {
     text-align: right;
 }
-.mainListarTbody tr td:last-child {
+.mainListadoTbody tr td:last-child {
     text-align: right;
 }
 

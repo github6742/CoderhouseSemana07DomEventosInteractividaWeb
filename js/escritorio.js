@@ -67,5 +67,24 @@ const listaMenu = [
 const lista = [];
 
 console.log("-------------------")
-console.log(lista)
+//console.log(lista)
 console.log("-------------------")
+const tag = document.getElementById("idpepe");
+
+      //tag.addEventListener("change", crearListado);
+      //tag.onchange = (()=>console.log("cambiar"))
+      //tag.addEventListener = (() => console.log("algo"))
+      tag.addEventListener('change', () => console.log("algo"));
+
+      tag.onchange = () => console.log("Cambió el valor a: " );
+
+      
+
+ const input = document.getElementById("idListarArticulosConDescuentoInputDescuento");
+
+// input.addEventListener("keydown", () => console.log("Presionaste una tecla"));
+// input.addEventListener("keyup", () => console.log("Soltaste una tecla"));
+
+ input.addEventListener("input", () => console.log("Valor actual: " + input.value));
+
+// input.onchange = () => console.log("Cambió el valor a: " + input.value);

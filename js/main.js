@@ -263,12 +263,8 @@ function crearHeaderMenu(){
 
 crearHeaderMenu();
 
-function hacerAlgo(){
-  console.log("hacer algo")
-}
-
 function crearMensajeDialog(tipo, texto){
-    console.log("crearMensajeDialog");
+    //console.log("crearMensajeDialog");
     let titulo;
     let htmlContenido;
     if (tipo === 'exito') {
@@ -317,7 +313,7 @@ function cargarArticulo(e){
   };
   //
   listaPrecioArticulos.push(elementoNuevo);
-  console.log(listaPrecioArticulos)
+  ////console.log(listaPrecioArticulos)
   crearMensajeDialog("exito", "El articulo se creo satisfactoriamente");
 }
 
@@ -338,10 +334,11 @@ function crearCard(articulo){
 function buscarArticulo(e){
   e.preventDefault();
   const idMenu = e.target.dataset.idMenu;
-  console.log(idMenu);
+  //console.log(idMenu);
   let resultadoBusqueda = false;
   let filtro;
   let articulosEncontrados = [];
+      //const tagMainContenedorResultados = document.getElementById("IdMainContenedorResultados");
   //
   switch(idMenu){
     case "idBuscarArticuloPorId":
@@ -395,13 +392,21 @@ function buscarArticulo(e){
     default:
       break;  
   }
-  console.log("resultadoBusqueda: " + resultadoBusqueda)
-  console.log("articulosEncontrados: " + articulosEncontrados)
+  //console.log("resultadoBusqueda: " + resultadoBusqueda)
+  //console.log("articulosEncontrados: " + articulosEncontrados)
   let htmlContenido;
+  //////////////////////////////////////////////////////////////////////////////
+  const tagContenido = document.createElement("div");
   if(!resultadoBusqueda){
-         crearMensajeDialog("error", "No se encontraron articulos para estos filtros");
+    console.log("resultadoBusqueda-1")
+    //const tagContenido = document.createElement("div");
+    tagContenido.id = "idMainContenedorResultados";
+    tagContenido.className = "mainContenedorResultados";
+    tagContenido.innerHTML =``;
+    crearMensajeDialog("error", "No se encontraron articulos para estos filtros");
   } else {
-    const tagContenido = document.createElement("div");
+    console.log("resultadoBusqueda-2")
+    //const tagContenido = document.createElement("div");
     tagContenido.id = "idMainContenedorResultados";
     tagContenido.className = "mainContenedorResultados";
     //
@@ -412,21 +417,107 @@ function buscarArticulo(e){
     );
     htmlContenido += `</div>`;
     tagContenido.innerHTML = htmlContenido;
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    /*
     if (document.getElementById("idMainContenedorResultados")) {
-      console.log("ya existe")
+    console.log("resultadoBusqueda-3")
+      //console.log("ya existe")
        document.getElementById("idMainContenedorResultados").innerHTML = tagContenido.innerHTML;
     } else {
-      console.log("no  existe contenedor")
+    console.log("resultadoBusqueda-4")
+      //console.log("no  existe contenedor")
        document.getElementById("idMainContenedorElementos").appendChild(tagContenido);
     }
+       */
   };
+    if (document.getElementById("idMainContenedorResultados")) {
+    console.log("resultadoBusqueda-3")
+      //console.log("ya existe")
+       document.getElementById("idMainContenedorResultados").innerHTML = tagContenido.innerHTML;
+    } else {
+    console.log("resultadoBusqueda-4")
+      //console.log("no  existe contenedor")
+       document.getElementById("idMainContenedorElementos").appendChild(tagContenido);
+    };
+}
+function crearListado(idMenu){
+  //console.log("crearListado - ")
+  //console.log("crearListado - idMenu: "+ idMenu)
+  let htmlContenido = ``;
+  if (idMenu="idCrearListadoArticulosConDescuento") {
+     htmlContenido = document.getElementById("idMainListado").innerHTML;
+  }
+  htmlContenido += `
+                    <table id="idMainListadoTable" class="mainListadoTable">
+                      <thead class="mainListadoThead">
+                        <tr class="mainListadoTr">
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Nombre del Artículo</th>
+                            <th>Marca</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                        </tr>
+                      </thead>
+                      <tbody id="idMainListadoTbody" class="mainListadoTbody">
+                      </tbody>
+                     </table>`;
+  //
+  //console.log(htmlContenido);
+  document.getElementById("idMainListado").innerHTML = htmlContenido;
+  cargarListado(idMenu);
+
 }
 
-function crearCamposDeCrearArticulos(){
-  console.log("crearCamposDeCrearArticulos")
+function cargarListado(idMenu){
+  //console.log("cargarListado----: " + idMenu)
+  let lista = []; 
+  listaPrecioArticulos.forEach(articulo => lista.push(articulo));
+  let htmlContenido=` `;
+  //
+  if (idMenu == "idListarArticulosConDescuento") {
+     let valorDescuento = document.getElementById("idListarArticulosConDescuentoInputDescuento").value;
+     lista = listaPrecioArticulos.map(articulo => {
+     let precioDescuento = articulo.precio - (articulo.precio * (valorDescuento/100));
+     return {
+         id: articulo.id,
+         codigo: articulo.codigo,
+         nombre: articulo.nombre,
+         marca: articulo.marca,
+         categoria: articulo.categoria,
+         precio: precioDescuento
+     };
+    });
+  };
+  // 
+  lista.forEach(articulo => {    
+  htmlContenido += `<tr id="idMainListadoTbodyTr" class="mainListadoTbodyTr">
+                           <td>${articulo.id}</td>
+                           <td>${articulo.codigo.toUpperCase()}</td>
+                           <td>${articulo.nombre.toUpperCase()}</td>
+                           <td>${articulo.marca.toUpperCase()}</td>
+                           <td>${articulo.categoria.toUpperCase()}</td>
+                           <td>$${articulo.precio}</td>
+                      </tr>`;
+  }); 
+  //
+  ////console.log("-------------------------------------")
+  ////console.log(htmlContenido)
+  //htmlContenido += `</tbody>`;
+  /*const tagMainListarTbody = document.getElementById("idMainListadoTbody");
+  tagMainListarTbody.innerHTML = htmlContenido;*/
+  document.getElementById("idMainListadoTbody").innerHTML = htmlContenido;
+}
+
+function crearCamposHtml(idMenu){
+  //console.log("crearCamposHtml - ")
     let htmlContenido;
-    htmlContenido = `
-                 <div class="mainFormularioFila">
+    //const tagMainFormulario = document.getElementById("idMainFormulario");
+    //console.log("crearCamposHtml - idMenu: " + idMenu)
+    switch(idMenu) {
+      case "idCrearArticulo":
+        //console.log("idMenu: " + idMenu)
+        htmlContenido =  `<div class="mainFormularioFila">
                     <label class="labelGlobal" for="idCrearArticuloCodigo" >Codigo:</label>
                     <input class="inputGlobal" type="text" id="idCrearArticuloCodigo" name="crearArticuloCodigo" required>
                  </div>
@@ -454,267 +545,271 @@ function crearCamposDeCrearArticulos(){
                  <div class="mainFormularioFila">
                     <button class="buttonGlobal" type="submit">Guardar</button>
                  </div>`;
-   const tagFormulario = document.getElementById("idMainFormulario");
-   tagFormulario.innerHTML = htmlContenido;
-}
-
-function crearCamposDeBuscarArticulos(idMenu){
-  console.log("crearCamposDeBuscarArticulos")
-    let htmlContenido;
-    const tagMainFormulario = document.getElementById("idMainFormulario");
-
-    htmlContenido = `<div id="idMainFormularioFila" class="mainFormularioFila">`;
-    switch(idMenu) {
+        break;
+      case "idListarArticulosConDescuento":
+        //console.log("input descueno switch")
+        htmlContenido = ` `;
+        /*
+        htmlContenido = `
+        <div class="mainListadoFila">
+                    <label class="labelGlobal" for="idListarArticulosConDescuentoInputDescuento" >Descuento:</label>
+                    <input class="inputGlobal" type="number" id="idListarArticulosConDescuentoInputDescuento" name="listarArticulosConDescuentoInputDescuento" value=5>
+                 </div>
+        `;
+        //console.log("input descueno switch-htmlContenido: "+ htmlContenido)*/
+        break;
       case "idBuscarArticuloPorId":
-        htmlContenido += `
+        htmlContenido = `<div id="idMainFormularioFila" class="mainFormularioFila">
                     <label class="labelGlobal" for="idBuscarArticuloPorIdInput" >ID:</label>
-                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorIdInput" name="buscarArticuloPorIdInput" required>`;
+                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorIdInput" name="buscarArticuloPorIdInput" required>
+                    </div>
+                 <div class="mainFormularioFila">
+                    <button class="buttonGlobal" type="submit">Buscar</button>
+                 </div>`;
         break;
       case "idBuscarArticuloPorCategoria":
-        htmlContenido += `
+        htmlContenido = `<div id="idMainFormularioFila" class="mainFormularioFila">
                     <label class="labelGlobal" for="idBuscarArticuloPorCategoriaSelect" >Categoria:</label>
                     <select id="idBuscarArticuloPorCategoriaSelect" name="buscarArticuloPorCategoriaSelect" required>
                       <option value="">Seleccione Una Categoria</option>
                       <option value="TELEVISOR">TELEVISOR</option>
                       <option value="COCINA">COCINA</option>
                       <option value="HELADERA">HELADERA</option>
-                    </select>`;
+                    </select>
+                    </div>
+                 <div class="mainFormularioFila">
+                    <button class="buttonGlobal" type="submit">Buscar</button>
+                 </div>`;
         break;
       case "idBuscarArticuloPorNombre":
-        htmlContenido += `
+        htmlContenido = `<div id="idMainFormularioFila" class="mainFormularioFila">
                     <label class="labelGlobal" for="idBuscarArticuloPorNombreInput" >Nombre:</label>
-                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorNombreInput" name="BuscarArticuloPorNombreInput" required>`;
+                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorNombreInput" name="BuscarArticuloPorNombreInput" required>
+                    </div>
+                 <div class="mainFormularioFila">
+                    <button class="buttonGlobal" type="submit">Buscar</button>
+                 </div>`;
         break;
       case "idVerificarExistenciaArticulo":
-        htmlContenido += `
+        htmlContenido = `<div id="idMainFormularioFila" class="mainFormularioFila">
                     <label class="labelGlobal" for="idBuscarArticuloPorCodigoInput" >Codigo:</label>
-                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorCodigoInput" name="BuscarArticuloPorCodigoInput" required>`;
+                    <input class="inputGlobal" type="text" id="idBuscarArticuloPorCodigoInput" name="BuscarArticuloPorCodigoInput" required>
+                    </div>
+                 <div class="mainFormularioFila">
+                    <button class="buttonGlobal" type="submit">Buscar</button>
+                 </div>`;
+        break;
+      case "idComprar":
+        htmlContenido =  `
+                 <div class="mainFormularioFila">
+                    <label class="labelGlobal" for="idCrearArticuloCategoria" >Categoria:</label>
+                    <select id="idCrearArticuloCategoria" name="crearArticuloCategoria">
+                      <option value="">Seleccione Una Categoria</option>
+                      <option value="TELEVISOR">TELEVISOR</option>
+                      <option value="COCINA">COCINA</option>
+                      <option value="HELADERA">HELADERA</option>
+                    </select>
+                 </div>
+                 <div class="mainFormularioFila">
+                    <label class="labelGlobal" for="idCrearArticuloMarca" >Marca:</label>
+                    <input class="inputGlobal" type="text" id="idCrearArticuloMarca" name="crearArticuloMarca">
+                 </div>
+                 <div class="mainFormularioFila">
+                    <button class="buttonGlobal" type="submit">Buscar</button>
+                 </div>`;
         break;
       default:
         break;  
     };
-    htmlContenido += `</div>`;
-    htmlContenido += `
-                 <div class="mainFormularioFila">
-                    <button class="buttonGlobal" type="submit">Buscar</button>
-                 </div>`;
-    //console.log("CrearCamposformulario>>>>>>"+htmlContenido);
-    tagMainFormulario.innerHTML = htmlContenido;
+    //
+    ////console.log("crearCamposHtml-htmlCOntenido-aaa--" +htmlContenido)
+    //tagMainFormulario.innerHTML = htmlContenido;
+    if (idMenu=="idListarArticulosConDescuento") {
+    ////console.log("crearCamposHtml-htmlCOntenido-bbb--" +htmlContenido)
+      //document.getElementById("idMainListado").innerHTML = htmlContenido;//idMainContenedorListado
+    ////console.log("crearCamposHtml-htmlCOntenido-ccc--" +htmlContenido)
+    //console.log("innnnner---------");//+document.getElementById("idMainListado").innerHTML)
+    } else {
+      document.getElementById("idMainFormulario").innerHTML = htmlContenido;
+    }
+/*      document.getElementById("idMainFormulario").innerHTML = htmlContenido;*/
 }
 
-function cargarTablaListado(idMenu){
-  console.log("cargarTablaListado----: " + idMenu)
-  let lista = []; 
-  listaPrecioArticulos.forEach(articulo => lista.push(articulo));
-  let htmlContenido=` `;
-  //
-  if (idMenu=="idListarArticulosConDescuento") {
-     let valorDescuento = document.getElementById("idListarArticulosDescuento").value;
-     lista = listaPrecioArticulos.map(articulo => {
-     let precioDescuento = articulo.precio - (articulo.precio * (valorDescuento/100));
-     return {
-         id: articulo.id,
-         codigo: articulo.codigo,
-         nombre: articulo.nombre,
-         marca: articulo.marca,
-         categoria: articulo.categoria,
-         precio: precioDescuento
-     };
-    });
-  };
-  // 
-  lista.forEach(articulo => {    
-  htmlContenido += `<tr id="idMainListarArticulosTr" class="mainListarArticulosTr">
-                           <td>${articulo.id}</td>
-                           <td>${articulo.codigo.toUpperCase()}</td>
-                           <td>${articulo.nombre.toUpperCase()}</td>
-                           <td>${articulo.marca.toUpperCase()}</td>
-                           <td>${articulo.categoria.toUpperCase()}</td>
-                           <td>$${articulo.precio}</td>
-                      </tr>`;
-  }); 
-  //
-  console.log("-------------------------------------")
-  console.log(htmlContenido)
-  //htmlContenido += `</tbody>`;
-  const tagMainListarTbody = document.getElementById("idMainListarTbody");
-  tagMainListarTbody.innerHTML = htmlContenido;
-}
-
-function crearTablaListado(){
-  console.log("crearTablaListado")
-  let htmlContenido;
-  htmlContenido = `
-                    <table id="idMainListarTable" class="mainListarArticulosTable">
-                      <thead class="mainListarThead">
-                        <tr class="mainListarTr">
-                            <th>ID</th>
-                            <th>Código</th>
-                            <th>Nombre del Artículo</th>
-                            <th>Marca</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                        </tr>
-                      </thead>
-                      <tbody id="idMainListarTbody" class="mainListarTbody">
-                      </tbody>
-                     </table>`;
-   //
-   console.log(htmlContenido);
-   const tagMainListarTableContenedor = document.createElement("div");
-   tagMainListarTableContenedor.id = "idMainListarTableContenedor";
-   tagMainListarTableContenedor.className= "mainListarTableContenedor";
-   tagMainListarTableContenedor.innerHTML = htmlContenido;
-   const tagMainContenedorListado = document.getElementById("idMainContenedorListado");
-   tagMainContenedorListado.appendChild(tagMainListarTableContenedor);
-}
-
-function crearCamposDeListarArticulosDescuento(){
-  
-    console.log("crearCamposDeListarArticulosConDescuento")
-    //crearListadoDeArticulos();
-    let htmlContenido;
-    htmlContenido = `<div class="mainListadoFila">
-                    <label class="labelGlobal" for="idListarArticulosDescuento" >Descuento:</label>
-                    <input class="inputGlobal" type="number" id="idListarArticulosDescuento" name="listarArticulosDescuento">
-                 </div>`;
-    
-    const tagDivDescuento = document.createElement("div");
-    tagDivDescuento.className = "mainFormularioFila";
-    tagDivDescuento.innerHTML = htmlContenido;                
-    document.getElementById("idMainContenedorListado").appendChild(tagDivDescuento)
-    const inputDescuento = document.getElementById("idListarArticulosDescuento");
-    inputDescuento.onchange = () =>(cargarTablaListado("idListarArticulosConDescuento"));
-}
-
-function crearCamposListado(idMenu){
-  console.log("crearTablaListado")
-  // 
-  if (idMenu == "idListarArticulosConDescuento") {
-      crearCamposDeListarArticulosDescuento();  
-  };
-  //
-}
-
-function crearCamposFormulario(idMenu){
-  console.log("crearCamposFormulario");
+function crearCampos(idMenu){
+  //console.log("crearCampos - ");
+  //console.log("crearCampos - idMenu: " + idMenu);
   const tagFormulario = document.getElementById("idMainFormulario");
   //
   switch(idMenu){
     case "idCrearArticulo":
-      crearCamposDeCrearArticulos();  
+      //console.log("crearCampos - idMenu: " + idMenu)
+      crearCamposHtml(idMenu);  
       tagFormulario.addEventListener("submit", cargarArticulo);
       break;
+    case "idListarArticulos":
+      break;
+    case "idListarArticulosConDescuento":
+      crearCamposHtml(idMenu);
+      const tagMainListadoFila = document.createElement("div");
+      tagMainListadoFila.className = "mainListadoFila";
+      const tagLabel = document.createElement("label");
+      tagLabel.className = "labelGlobal";
+      tagLabel.setAttribute("for","idListarArticulosConDescuentoInputDescuento");
+      //tagLabel.for = "idListarArticulosConDescuentoInputDescuento";
+      tagLabel.innerText ="Descuento: "
+      const tagInput = document.createElement("input");
+      tagInput.className = "inputGlobal";
+      tagInput.type = "number";
+      tagInput.id = "idListarArticulosConDescuentoInputDescuento";
+      tagInput.name = "listarArticulosConDescuentoInputDescuento";
+      tagInput.value = 0;
+      tagMainListadoFila.appendChild(tagLabel);
+      tagMainListadoFila.appendChild(tagInput);
+      const tagMainContenedorElementos = document.getElementById("idMainContenedorElementos");
+      tagMainContenedorElementos.insertBefore(tagMainListadoFila,document.getElementById("idMainContenedorListado"));
+      //tagInput.addEventListener("input", () => //console.log("Valor actual: " + tagInput.value));
+      tagInput.addEventListener("input", () => cargarListado(idMenu));
+      break;      
     case "idBuscarArticuloPorId":
-      crearCamposDeBuscarArticulos(idMenu);
+      crearCamposHtml(idMenu);
       tagFormulario.dataset.idMenu = idMenu;  
       tagFormulario.addEventListener("submit", buscarArticulo);
       break;
     case "idBuscarArticuloPorCategoria":
       tagFormulario.dataset.idMenu = idMenu;  
-      crearCamposDeBuscarArticulos(idMenu);  
+      crearCamposHtml(idMenu);  
       tagFormulario.addEventListener("submit", buscarArticulo);
       break;
     case "idBuscarArticuloPorNombre":
       tagFormulario.dataset.idMenu = idMenu;  
-      crearCamposDeBuscarArticulos(idMenu);  
+      crearCamposHtml(idMenu);  
       tagFormulario.addEventListener("submit", buscarArticulo);
       break;
     case "idVerificarExistenciaArticulo":
       tagFormulario.dataset.idMenu = idMenu;  
-      crearCamposDeBuscarArticulos(idMenu);  
+      crearCamposHtml(idMenu);  
       tagFormulario.addEventListener("submit", buscarArticulo);
       break;
     case "idComprar":
-      crearCamposDeCrearArticulos();  
+      crearCamposHtml(idMenu);  
       break;
     default:
       break;
   }
 }
-;
 
-function crearFormulario(e) {
-    e.preventDefault();
-    console.log("crearFormulario");
-    const tagMain = document.querySelector("main");
-    const idMenu = e.target.dataset.idMenu;
-    const tituloMenu = e.target.dataset.tituloMenu;
-    console.log("opcion menu: " + idMenu);
+function crearContenedor(idMenu,tituloMenu, claseContenedor,tipoContenedor, tagContenedor) {
+    //console.log("crearContenedor - idMenu: " + idMenu);
+    //console.log("crearContenedor - tituloMenu: " + tituloMenu);
+    //console.log("crearContenedor - claseContenedor: " + claseContenedor);
+    //console.log("crearContenedor - tipoContenedor: " + tipoContenedor);
+    //console.log("crearContenedor - tagContenedor: " + tagContenedor);
     let htmlContenido;
     htmlContenido = `
     <div id="idMainContenedor" class="mainContenedor">
        <div id="idMainContenedorElementos" class="mainContenedorElementos">
           <h2 id="idMainTitulo" class="mainTitulo">${tituloMenu}</h2>
-          <div id="idMainContenedorFormulario" class="mainContenedorFormulario">
-            <form id="idMainFormulario" class="mainFormulario" method="POST">
-            </form>
+          <div id="idMainContenedor${tipoContenedor}" class="mainContenedor${tipoContenedor}"> `;
+    //          
+    if (tipoContenedor == "Formulario") {
+        htmlContenido += `
+              <${tagContenedor} id="idMain${tipoContenedor}" class="main${tipoContenedor}" method="POST">
+              </${tagContenedor}>`;
+    } else {
+        htmlContenido += `
+              <${tagContenedor} id="idMain${tipoContenedor}" class="main${tipoContenedor}">
+              </${tagContenedor}>`;
+    };
+    //           
+    htmlContenido += `
           </div>
        </div>
     </div>
     `;
-    tagMain.innerHTML = htmlContenido; 
-    crearCamposFormulario(idMenu);
-};
+   document.querySelector("main").innerHTML = htmlContenido;
+}
 
-function crearListado(e) {
-    e.preventDefault();
-    console.log("crearListado");
-    const tagMain = document.querySelector("main");
-    const idMenu = e.target.dataset.idMenu;
-    const tituloMenu = e.target.dataset.tituloMenu;
-    let htmlContenido;
-    htmlContenido = `
-    <div id="idMainContenedor" class="mainContenedor">
-       <div id="idMainContenedorElementos" class="mainContenedorElementos">
-          <h2 id="idMainTitulo" class="mainTitulo">${tituloMenu}</h2>
-          <div id="idMainContenedorListado" class="mainContenedorListado">
-          </div>
-       </div>
-    </div>
-    `;
-    tagMain.innerHTML = htmlContenido; 
-    crearCamposListado(idMenu);    
-    crearTablaListado();  
-    cargarTablaListado(idMenu);
-};
+
+function crearPagina(e) {
+  e.preventDefault();
+  //console.log("crearPagina - ");
+  const idMenu = e.target.dataset.idMenu;
+  const tituloMenu = e.target.dataset.tituloMenu;
+  const claseContenedor = e.target.dataset.claseContenedor;
+  const tipoContenedor = e.target.dataset.tipoContenedor;
+  const tagContenedor = e.target.dataset.tagContenedor;
+  //console.log("crearPagina - idMenu: " + idMenu);
+  //console.log("crearPagina - tituloMenu: " + tituloMenu);
+  //console.log("crearPagina - claseContenedor: " + claseContenedor);
+  //console.log("crearPagina - tipoContenedor: " + tipoContenedor);
+  //console.log("crearPagina - tagContenedor: " + tagContenedor);
+  crearContenedor(idMenu,tituloMenu, claseContenedor,tipoContenedor, tagContenedor);
+  crearCampos(idMenu);
+  if (idMenu=="idListarArticulos" || idMenu=="idListarArticulosConDescuento") {
+     crearListado(idMenu);
+  }
+}
 //
 const crearFormularioOpcion1 = document.getElementById((listaMenu.find(menu => menu.opcion == 1)).id);
 crearFormularioOpcion1.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 1)).id;
 crearFormularioOpcion1.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 1)).titulo;
-crearFormularioOpcion1.addEventListener("click", crearFormulario);
+crearFormularioOpcion1.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 1)).clase;
+crearFormularioOpcion1.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion1.dataset.tagContenedor = "form";
+crearFormularioOpcion1.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion2 = document.getElementById((listaMenu.find(menu => menu.opcion == 2)).id);
 crearFormularioOpcion2.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 2)).id;
 crearFormularioOpcion2.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 2)).titulo;
-crearFormularioOpcion2.addEventListener("click", crearListado);
+crearFormularioOpcion2.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 2)).clase;
+crearFormularioOpcion2.dataset.tipoContenedor = "Listado";
+crearFormularioOpcion2.dataset.tagContenedor = "div";
+crearFormularioOpcion2.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion3 = document.getElementById((listaMenu.find(menu => menu.opcion == 3)).id);
 crearFormularioOpcion3.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 3)).id;
 crearFormularioOpcion3.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 3)).titulo;
-crearFormularioOpcion3.addEventListener("click", crearListado);
+crearFormularioOpcion3.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 3)).clase;
+crearFormularioOpcion3.dataset.tipoContenedor = "Listado";
+crearFormularioOpcion3.dataset.tagContenedor = "div";
+crearFormularioOpcion3.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion4 = document.getElementById((listaMenu.find(menu => menu.opcion == 4)).id);
 crearFormularioOpcion4.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 4)).id;
 crearFormularioOpcion4.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 4)).titulo;
-crearFormularioOpcion4.addEventListener("click", crearFormulario);
+crearFormularioOpcion4.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 4)).clase;
+crearFormularioOpcion4.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion4.dataset.tagContenedor = "form";
+crearFormularioOpcion4.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion5 = document.getElementById((listaMenu.find(menu => menu.opcion == 5)).id);
 crearFormularioOpcion5.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 5)).id;
 crearFormularioOpcion5.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 5)).titulo;
-crearFormularioOpcion5.addEventListener("click", crearFormulario);
+crearFormularioOpcion5.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 5)).clase;
+crearFormularioOpcion5.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion5.dataset.tagContenedor = "form";
+crearFormularioOpcion5.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion6 = document.getElementById((listaMenu.find(menu => menu.opcion == 6)).id);
 crearFormularioOpcion6.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 6)).id;
 crearFormularioOpcion6.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 6)).titulo;
-crearFormularioOpcion6.addEventListener("click", crearFormulario);
+crearFormularioOpcion6.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 6)).clase;
+crearFormularioOpcion6.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion6.dataset.tagContenedor = "form";
+crearFormularioOpcion6.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion7 = document.getElementById((listaMenu.find(menu => menu.opcion == 7)).id);
 crearFormularioOpcion7.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 7)).id;
 crearFormularioOpcion7.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 7)).titulo;
-crearFormularioOpcion7.addEventListener("click", crearFormulario);
+crearFormularioOpcion7.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 7)).clase;
+crearFormularioOpcion7.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion7.dataset.tagContenedor = "form";
+crearFormularioOpcion7.addEventListener("click", crearPagina);
 //
 const crearFormularioOpcion8 = document.getElementById((listaMenu.find(menu => menu.opcion == 8)).id);
 crearFormularioOpcion8.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 8)).id;
 crearFormularioOpcion8.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 8)).titulo;
-crearFormularioOpcion8.addEventListener("click", crearFormulario);
+crearFormularioOpcion8.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 8)).clase;
+crearFormularioOpcion8.dataset.tipoContenedor = "Formulario";
+crearFormularioOpcion8.dataset.tagContenedor = "form";
+crearFormularioOpcion8.addEventListener("click", crearPagina);
