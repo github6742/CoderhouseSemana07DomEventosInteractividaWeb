@@ -264,10 +264,12 @@ footer {
     padding: 10px;
     margin: 10px;
     width: 70%; */
-    
+    display: flex;
+    flex-direction: column;
     margin-top: 1rem;
     width: 70%;
     background-color:  #ddeeec;
+    padding: 1rem;
 }
 .mainContenedorCarritoComprasBotones h3{
     text-align: center;
@@ -277,6 +279,8 @@ footer {
     padding: 10px;
     margin: 10px; */
     display: flex;
+    justify-content: space-around;
+    align-content: space-around;
 }
 .tituloBotonesCarrito {
     color: green;
@@ -287,6 +291,17 @@ footer {
     padding: 0.5rem;
     text-align: center;
     font-weight: bold;
+}
+
+.mainCarritoComprasBotones .buttonGlobal {
+    color: white;
+    background-color: green;
+    /* width: 100%; */
+    width: 80%;
+    font-size: bold;
+    padding: 0.25rem;
+    font-size: 1.5rem;
+    border-radius: 5px;
 }
 /******************
    CLASES CARRITODE COMPRAS
