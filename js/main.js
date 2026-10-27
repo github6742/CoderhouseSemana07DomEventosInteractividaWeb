@@ -380,6 +380,19 @@ function eliminarArticuloDelCarrito(e) {
        //
      })
   };
+  
+    
+          carritoCompras.forEach(articulo =>{
+            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
+              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
+            } else {
+              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
+            }
+            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
+            tagBotonEliminar.dataset.articuloId =articulo.id;
+            tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
+            //tagBotonEliminar.addEventListener("click", (e) =>  console.log("idBotonEliminarFilaCarrito"+articulo.id));
+          });
 }
 
 function crearCardArticuloComprado2 (articulo) {
@@ -534,7 +547,7 @@ function verCarritoCompras(e){
   if (document.getElementById("idMainContenedorCarritoCompras")) {
   tagDivMainContenedorElementos.replaceChild(tagDivMainContenedorCarritoCompras,(document.getElementById("idMainContenedorCarritoCompras")))
   } else {
-    tagDivMainContenedorElementos.appendChildChild(tagDivMainContenedorCarritoCompras)
+    tagDivMainContenedorElementos.appendChild(tagDivMainContenedorCarritoCompras)
   }
   
           carritoCompras.forEach(articulo =>{
@@ -658,7 +671,7 @@ function agregarAlCarrito(e) {
   const cantidad = document.getElementById("idComprarCantidad"+articuloId).value;
   //
   if (carritoCompras.some(articuloCC => articuloCC.id == articuloId)){
-     crearMensajeDialog("error","El articulo ya existe en el carrito");
+     crearMensajeDialog("error","El articulo ya existe en el carrito de compras");
   } else {
      console.log("-no existe el articulo en el carrito")
      articulo = listaPrecioArticulos.find(articulo => articulo.id == articuloId);
@@ -683,16 +696,26 @@ function agregarAlCarrito(e) {
      if (!document.getElementById("idMainContenedorCarritoComprasBotones")) {
         crearBotonesCarritoHtml();
         //crearBotonesCarritoHtml2(e);
-     }     
+     }   
+     crearMensajeDialog("exito","El articulo fue agregado con exito al carrito de compras");  
   }
+   carritoCompras.forEach(articulo =>{
+            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
+              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
+            } else {
+              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
+            }
+            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
+            tagBotonEliminar.dataset.articuloId = articulo.id;
+            //tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
+            tagBotonEliminar.addEventListener("click", (e) =>  {
+              eliminarArticuloDelCarrito(e);
+            });
+          });
 }
 
 function crearCardCompras(articulosEncontrados){
-  console.log("crearCardCompras2");
   let htmlContenido=``;
-  htmlContenido += `
-        <div id="idMainContenedorResultados" class="mainContenedorResultados">
-            <div id="idMainResultados" class="mainResultados">`;
   //
   articulosEncontrados.forEach(articulo => {
     //
@@ -702,35 +725,40 @@ function crearCardCompras(articulosEncontrados){
       <h6>NOMBRE: ${articulo.nombre}</h6>
       <h6>MARCA: ${articulo.marca}</h6>
       <h6>PRECIO: ${articulo.precio}</h6>
-      <div id="idComprasFilaCantidas" class="comprasFilaCantidad>
+      <div id="idComprasFilaCantidas" class="comprasFilaCantidad">
         <label class="labelGlobal" for="idComprarCantidad${articulo.id}">Cantidad: </label>
         <input class="inputGlobal" id="idComprarCantidad${articulo.id}" type="number" min=1 max=99 value=1 required>
       </div>
       <button id="idBotonComprar${articulo.id}" class="buttonGlobal">Comprar</button>
     </div>
     `;
-    });
-    htmlContenido += `
-            </div>
-        </div>`;
+  });
   // 
-  if (document.getElementById("idMainContenedorResultados")) {
+  if (document.getElementById("idMainResultados")) {
     console.log("true")
-     document.getElementById("idMainContenedorResultados").innerHTML = ``;
-     document.getElementById("idMainContenedorResultados").innerHTML = htmlContenido; 
+    //alert("0010")
+     document.getElementById("idMainResultados").innerHTML = ``;
+     document.getElementById("idMainResultados").innerHTML = htmlContenido; 
   } else {
-  htmlContenido = `
-        <div id="idMainContenedorResultados" class="mainContenedorResultados">
-            <div id="idMainResultados" class="mainResultados">`+htmlContenido+ `
-            </div>
-        </div>`;
-    console.log("false")
-     document.getElementById("idMainContenedorElementos").innerHTML += htmlContenido; 
-  }
-
-  articulosEncontrados.forEach(articulo => {
     //
-    let tagBotonComprar = document.getElementById("idBotonComprar"+articulo.id);
+    const tagDivMainContenedorElementos = document.getElementById("idMainContenedorElementos");
+    //
+    const tagDivMainContenedorResultados = document.createElement("div");
+    tagDivMainContenedorResultados.id = "idMainContenedorResultados";
+    tagDivMainContenedorResultados.className = "mainContenedorResultados";
+    //tagDivMainContenedorResultados.innerHTML = htmlContenido;
+    //
+    const tagDivMainResultados = document.createElement("idMainResultados");
+    tagDivMainResultados.id = "idMainResultados";
+    tagDivMainResultados.className = "mainResultados";
+    tagDivMainResultados.innerHTML = htmlContenido;
+    //
+    tagDivMainContenedorResultados.appendChild(tagDivMainResultados);
+    //
+    tagDivMainContenedorElementos.appendChild(tagDivMainContenedorResultados);
+  }
+  articulosEncontrados.forEach(articulo => {
+    const tagBotonComprar = document.getElementById("idBotonComprar"+articulo.id);
     tagBotonComprar.dataset.articuloId = articulo.id;
     tagBotonComprar.addEventListener("click" , (e) => agregarAlCarrito(e));
     });
@@ -751,13 +779,16 @@ function buscarArticulosCompras(e){
 }
 
 function buscarArticulo(e){
+     //alert("0070")
   e.preventDefault();
+     //alert("0050")
   const idMenu = e.target.dataset.idMenu;
   //
   let resultadoBusqueda = false;
   let filtro;
   let articulosEncontrados = [];
   //
+     //alert("0060")
   switch(idMenu){
     case "idBuscarArticuloPorId":
       filtro = document.getElementById("idBuscarArticuloPorIdInput").value;
@@ -832,6 +863,7 @@ function buscarArticulo(e){
      articulosEncontrados.forEach(articulo => {htmlContenido += crearCard(articulo)});
      htmlContenido += `</div>`;
      tagContenido.innerHTML = htmlContenido;
+     //alert("0040")
   };
   //
   if (document.getElementById("idMainContenedorResultados")) {
