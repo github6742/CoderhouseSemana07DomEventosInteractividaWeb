@@ -4,56 +4,72 @@ const listaMenu = [
         titulo: "Crear Articulo",
         clase: "crearArticulo",
         id: "idCrearArticulo",
-        nivelTitulo: 1
+        nivelTitulo: 1,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     },
     {
         opcion: 2,
         titulo: "Listar Articulos",
         clase: "listarArticulos",
         id: "idListarArticulos",
-        nivelTitulo: 1
+        nivelTitulo: 1,
+        tipoContenedor: "Listado",
+        tagContenedor: "div"
     },
     {
         opcion: 3,
         titulo: "Listar Articulos Con Descuento",
         clase: "listarArticulosConDescuento",
         id: "idListarArticulosConDescuento",
-        nivelTitulo: 1
+        nivelTitulo: 1,
+        tipoContenedor: "Listado",
+        tagContenedor: "div"
     },
     {
         opcion: 4,
         titulo: "Buscar Articulo Por Id",
         clase: "buscarArticuloPorId",
         id: "idBuscarArticuloPorId",
-        nivelTitulo: 1
+        nivelTitulo: 1,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     },
     {
         opcion: 5,
         titulo: "Buscar Articulo Por Categoria",
         clase: "buscarArticuloPorCategoria",
         id: "idBuscarArticuloPorCategoria",
-        nivelTitulo: 2
+        nivelTitulo: 2,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     },
     {
         opcion: 6,
         titulo: "Buscar Articulo Por Nombre",
         clase: "buscarArticuloPorNombre",
         id: "idBuscarArticuloPorNombre",
-        nivelTitulo: 2
+        nivelTitulo: 2,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     },
     {
         opcion: 7,
         titulo: "Verificar Existencia Articulo",
         clase: "verificarExistenciaArticulo",
         id: "idVerificarExistenciaArticulo",
-        nivelTitulo: 2
+        nivelTitulo: 2,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     },
     {
         opcion: 8,
         titulo: "Comprar",
         clase: "comprar",
         id: "idComprar",
-        nivelTitulo: 2
+        nivelTitulo: 2,
+        tipoContenedor: "Formulario",
+        tagContenedor: "form"
     }
 ];
 
@@ -340,65 +356,32 @@ function crearCard(articulo){
 };
 
 function eliminarArticuloDelCarrito(e) {
-  console.log("eliminarArticuloDelCarrito-0")
   e.preventDefault();
-  console.log(carritoCompras)
+  //
   const articuloId = e.target.dataset.articuloId;
-  console.log("eliminarAriculoCarrito - articuloId: " + articuloId)
+  //
   const indice = carritoCompras.findIndex(articulo => articulo.id == articuloId);
-  console.log("eliminarAriculoCarrito - indice: " + indice)
-  console.log("***************************************")
-  console.log(carritoCompras)
+  //
   carritoCompras.splice(indice,1);
-  console.log("***************************************luego de splice")
-  console.log(carritoCompras)
   // 
- 
   if (document.getElementById("idMainCarritoCompras")) {
      document.getElementById("idMainCarritoCompras").innerHTML = ``;
-     //carritoCompras.forEach(articulo =>{document.getElementById("idMainCarritoCompras").appendChild(crearCardArticuloComprado2(articulo));
      carritoCompras.forEach(articulo =>{document.getElementById("idMainCarritoCompras").innerHTML += crearCardArticuloComprado2(articulo);
-      //
-      /*
-          carritoCompras.forEach(articulo =>{
-            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
-            } else {
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
-            }
-            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-            tagBotonEliminar.dataset.articuloId =articulo.id;
-            tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
-            //tagBotonEliminar.addEventListener("click", (e) =>  console.log("idBotonEliminarFilaCarrito"+articulo.id));
-          });
-          */
-
-       if (document.getElementById("idMainCarritoComprasTotalArticulo")) {
-          const totalCarrito = carritoCompras.reduce((sumador,articulo)  => sumador + (parseInt(articulo.precio)*parseInt(articulo.cantidad)),0);
-          document.getElementById("idMainCarritoComprasTotalArticulo").innerText = `Total del carrito de compras: $${totalCarrito}`;
-       }
-       //
+     if (document.getElementById("idMainCarritoComprasTotalArticulo")) {
+        const totalCarrito = carritoCompras.reduce((sumador,articulo)  => sumador + (parseInt(articulo.precio)*parseInt(articulo.cantidad)),0);
+        document.getElementById("idMainCarritoComprasTotalArticulo").innerText = `Total del carrito de compras: $${totalCarrito}`;
+     }
      })
   };
-  
-    
-          carritoCompras.forEach(articulo =>{
-            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
-            } else {
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
-            }
-            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-            tagBotonEliminar.dataset.articuloId =articulo.id;
-            tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
-            //tagBotonEliminar.addEventListener("click", (e) =>  console.log("idBotonEliminarFilaCarrito"+articulo.id));
-          });
+  //
+  carritoCompras.forEach(articulo =>{
+    const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
+    tagBotonEliminar.dataset.articuloId =articulo.id;
+    tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
+  });
 }
 
 function crearCardArticuloComprado2 (articulo) {
-  //
-  console.log("crearCardArticuloComprado2")
-  console.log("crearCardArticuloComprado2-cantidad: " + articulo.cantidad)
   let htmlContenido;
   //
   htmlContenido = `
@@ -416,66 +399,15 @@ function crearCardArticuloComprado2 (articulo) {
   return htmlContenido;
   //
 }
-/*
-function crearCardArticuloComprado (articulo) {
-  //
-  console.log("crearCardArticuloComprado")
-  console.log("crearCardArticuloComprado-cantidad: " + articulo.cantidad)
-  //
-  const tagDivMainCarritoComprasFila = document.createElement("div"); 
-  tagDivMainCarritoComprasFila.id = "idMainCarritoComprasFila";
-  tagDivMainCarritoComprasFila.className = "mainCarritoComprasFila";
-  //
-  const tagH6Id = document.createElement("h6");
-  tagH6Id.innerText = `ID: ${articulo.id}`;
-  //
-  const tagH6Nombre = document.createElement("h6");
-  tagH6Nombre.innerText = `NOMBRE: ${articulo.nombre}`;
-  //
-  const tagH6Marca = document.createElement("h6");
-  tagH6Marca.innerText = `MARCA: ${articulo.marca}`;
-  //
-  const tagH6Precio = document.createElement("h6");
-  tagH6Precio.innerText = `PRECIO: $${articulo.precio}`;
-  //
-  const tagH6Cantidad = document.createElement("h6");
-  tagH6Cantidad.innerText = `CANTIDAD: ${articulo.cantidad}`;
-  //
-  const tagH6TotalArticulo = document.createElement("h6");
-  tagH6TotalArticulo.innerText = `TOTAL ARTICULO: ${articulo.totalArticulo}`;
-  //
-  const tagBotonEliminarFilaCarrito = document.createElement("button");
-  tagBotonEliminarFilaCarrito.id = "idBotonEliminarFilaCarrito";
-  tagBotonEliminarFilaCarrito.className = "buttonGlobal";
-  tagBotonEliminarFilaCarrito.innerText = "Eliminar";
-  //
-  tagBotonEliminarFilaCarrito.dataset.articuloId = articulo.id;
-  tagBotonEliminarFilaCarrito.addEventListener("click", eliminarArticuloDelCarrito);
-  //
-  tagDivMainCarritoComprasFila.appendChild(tagH6Id);
-  tagDivMainCarritoComprasFila.appendChild(tagH6Nombre);
-  tagDivMainCarritoComprasFila.appendChild(tagH6Marca);
-  tagDivMainCarritoComprasFila.appendChild(tagH6Precio);
-  tagDivMainCarritoComprasFila.appendChild(tagH6Cantidad);
-  tagDivMainCarritoComprasFila.appendChild(tagH6TotalArticulo);
-  tagDivMainCarritoComprasFila.appendChild(tagBotonEliminarFilaCarrito);
-  //
-  return tagDivMainCarritoComprasFila;
-  //
-}
-*/
+
 function verCarritoCompras(e){
-  console.log("verCarritoCompras")
-  
-     console.log("verCarritoCompras-0010")
-     console.log(carritoCompras)
-     //
   e.preventDefault();
+  //
   const tagDivMainContenedorElementos = document.getElementById("idMainContenedorElementos");
-      let tagDivMainContenedorCarritoCompras;
-      let tagDivMainCarritoCompras ;
-  if (carritoCompras.length > 0) {
-      
+  let tagDivMainContenedorCarritoCompras;
+  let tagDivMainCarritoCompras ;
+  //
+  if (carritoCompras.length > 0) {      
       //
       if (!document.getElementById("idMainContenedorCarritoCompras")) {
          tagDivMainContenedorCarritoCompras = document.createElement("div");
@@ -496,37 +428,9 @@ function verCarritoCompras(e){
           tagDivMainCarritoCompras.id = "idMainCarritoCompras";
           tagDivMainCarritoCompras.className = "mainCarritoCompras";
           //
-          //carritoCompras.forEach(articulo =>{tagDivMainCarritoCompras.appendChild(crearCardArticuloComprado(articulo))});
           carritoCompras.forEach(articulo =>{tagDivMainCarritoCompras.innerHTML += crearCardArticuloComprado2(articulo)});
           //
           tagDivMainContenedorCarritoCompras.appendChild(tagDivMainCarritoCompras);
-          //
-          /*
-          let cc;
-     console.log("verCarritoCompras-0020")
-     console.log(carritoCompras)
-          carritoCompras.forEach(articulo =>{
-            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
-            } else {
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
-            }
-            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-            tagBotonEliminar.dataset.articuloId = articulo.id;
-            //tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
-            tagBotonEliminar.addEventListener("click", (e) =>  {
-              console.log("verCarritoCompras--eliminarArticuloDelCarrito(e)--3333")
-              console.log(carritoCompras)
-              eliminarArticuloDelCarrito(e);
-              console.log("verCarritoCompras-eliminarArticuloDelCarrito(e)-9899")
-              console.log(carritoCompras)
-            });
-            //tagBotonEliminar.addEventListener("click", (e) =>  console.log("idBotonEliminarFilaCarrito"+articulo.id));
-          });
-  
-     console.log("verCarritoCompras-0030")
-     console.log(carritoCompras)
-     */
           //
           const tagTotalCarritoCompras = document.createElement("p")
           tagTotalCarritoCompras.id = "idMainCarritoComprasTotalArticulo";
@@ -545,28 +449,19 @@ function verCarritoCompras(e){
   }
   //
   if (document.getElementById("idMainContenedorCarritoCompras")) {
-  tagDivMainContenedorElementos.replaceChild(tagDivMainContenedorCarritoCompras,(document.getElementById("idMainContenedorCarritoCompras")))
+     tagDivMainContenedorElementos.replaceChild(tagDivMainContenedorCarritoCompras,(document.getElementById("idMainContenedorCarritoCompras")))
   } else {
-    tagDivMainContenedorElementos.appendChild(tagDivMainContenedorCarritoCompras)
+     tagDivMainContenedorElementos.appendChild(tagDivMainContenedorCarritoCompras)
   }
-  
-          carritoCompras.forEach(articulo =>{
-            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
-            } else {
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
-            }
-            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-            tagBotonEliminar.dataset.articuloId = articulo.id;
-            //tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
-            tagBotonEliminar.addEventListener("click", (e) =>  {
-              eliminarArticuloDelCarrito(e);
-            });
-          });
+  //
+  carritoCompras.forEach(articulo =>{
+    const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
+    tagBotonEliminar.dataset.articuloId = articulo.id;
+    tagBotonEliminar.addEventListener("click", (e) =>  {eliminarArticuloDelCarrito(e);});
+  });
 }
 
 function ocultarCarritoCompras(e){
-  console.log("ocultarCarritoCompras")
   e.preventDefault();
   if (document.getElementById("idMainContenedorCarritoCompras")) {
      document.getElementById("idMainContenedorElementos").removeChild(document.getElementById("idMainContenedorCarritoCompras"));
@@ -576,7 +471,6 @@ function ocultarCarritoCompras(e){
 }
 
 function vaciarCarritoCompras(e){
-  console.log("vaciarCarritoCompras")
   e.preventDefault();
   carritoCompras.splice(0,carritoCompras.length);
   //
@@ -588,21 +482,17 @@ function vaciarCarritoCompras(e){
 }
 
 function confirmarCarritoCompras(e){
-  console.log("confirmarCarritoCompras")
   e.preventDefault();
   //
   if (carritoCompras.length == 0) {
     crearMensajeDialog("error","El carrito de compras no contiene articulos");
   } else {
-  const totalCarrito = carritoCompras.reduce((sumador,articulo)  => sumador + (parseInt(articulo.precio)*parseInt(articulo.cantidad)),0);
-  //
-  crearMensajeDialog("exito","El carrito de compras fue confirmado, el total de la compra es: " + totalCarrito)
-}
+    const totalCarrito = carritoCompras.reduce((sumador,articulo)  => sumador + (parseInt(articulo.precio)*parseInt(articulo.cantidad)),0);
+    crearMensajeDialog("exito","El carrito de compras fue confirmado, el total de la compra es: " + totalCarrito)
+  }
 }
 
 function crearBotonesCarritoHtml(){
-  console.log("crearBotonesCarritoHmtl");
-  //
   const tagDivMainContenedorElementos = document.getElementById("idMainContenedorElementos");
   //
   const tagDivMainContenedorCarritoComprasBotones = document.createElement("div");
@@ -662,9 +552,7 @@ function crearBotonesCarritoHtml(){
 }
 
 function agregarAlCarrito(e) {
-  
   e.preventDefault();
-  console.log("agregarAlCarrito - ");
   let articulo;
   const articuloId = e.target.dataset.articuloId;
   //
@@ -673,20 +561,13 @@ function agregarAlCarrito(e) {
   if (carritoCompras.some(articuloCC => articuloCC.id == articuloId)){
      crearMensajeDialog("error","El articulo ya existe en el carrito de compras");
   } else {
-     console.log("-no existe el articulo en el carrito")
      articulo = listaPrecioArticulos.find(articulo => articulo.id == articuloId);
      articulo.cantidad = cantidad;
      articulo.totalArticulo = articulo.precio*cantidad;
      carritoCompras.push(articulo);
-     console.log("agregarAlCarrito")
-     console.log(carritoCompras)
      //
      if(document.getElementById("idMainCarritoCompras")) {
        document.getElementById("idMainCarritoCompras").innerHTML += crearCardArticuloComprado2(articulo);
-/*
-       const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-       tagBotonEliminar.dataset.articuloId=articulo.id;
-       tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));*/
        //
        if (document.getElementById("idMainCarritoComprasTotalArticulo")) {
           const totalCarrito = carritoCompras.reduce((sumador,articulo)  => sumador + (parseInt(articulo.precio)*parseInt(articulo.cantidad)),0);
@@ -695,23 +576,15 @@ function agregarAlCarrito(e) {
      }
      if (!document.getElementById("idMainContenedorCarritoComprasBotones")) {
         crearBotonesCarritoHtml();
-        //crearBotonesCarritoHtml2(e);
      }   
      crearMensajeDialog("exito","El articulo fue agregado con exito al carrito de compras");  
   }
-   carritoCompras.forEach(articulo =>{
-            if(document.getElementById("idBotonEliminarFilaCarrito"+articulo.id)) { 
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------si existe")
-            } else {
-              console.log("document.getElementById(idBotonEliminarFilaCarrito"+articulo.id+")"+"----------no existe")
-            }
-            const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
-            tagBotonEliminar.dataset.articuloId = articulo.id;
-            //tagBotonEliminar.addEventListener("click", (e) =>  eliminarArticuloDelCarrito(e));
-            tagBotonEliminar.addEventListener("click", (e) =>  {
-              eliminarArticuloDelCarrito(e);
-            });
-          });
+  //
+  carritoCompras.forEach(articulo =>{
+    const tagBotonEliminar = document.getElementById("idBotonEliminarFilaCarrito"+articulo.id);
+    tagBotonEliminar.dataset.articuloId = articulo.id;
+    tagBotonEliminar.addEventListener("click", (e) =>  {eliminarArticuloDelCarrito(e);});
+  });
 }
 
 function crearCardCompras(articulosEncontrados){
@@ -735,8 +608,6 @@ function crearCardCompras(articulosEncontrados){
   });
   // 
   if (document.getElementById("idMainResultados")) {
-    console.log("true")
-    //alert("0010")
      document.getElementById("idMainResultados").innerHTML = ``;
      document.getElementById("idMainResultados").innerHTML = htmlContenido; 
   } else {
@@ -746,7 +617,6 @@ function crearCardCompras(articulosEncontrados){
     const tagDivMainContenedorResultados = document.createElement("div");
     tagDivMainContenedorResultados.id = "idMainContenedorResultados";
     tagDivMainContenedorResultados.className = "mainContenedorResultados";
-    //tagDivMainContenedorResultados.innerHTML = htmlContenido;
     //
     const tagDivMainResultados = document.createElement("idMainResultados");
     tagDivMainResultados.id = "idMainResultados";
@@ -757,6 +627,7 @@ function crearCardCompras(articulosEncontrados){
     //
     tagDivMainContenedorElementos.appendChild(tagDivMainContenedorResultados);
   }
+  //
   articulosEncontrados.forEach(articulo => {
     const tagBotonComprar = document.getElementById("idBotonComprar"+articulo.id);
     tagBotonComprar.dataset.articuloId = articulo.id;
@@ -765,7 +636,6 @@ function crearCardCompras(articulosEncontrados){
 }
 
 function buscarArticulosCompras(e){
-  console.log("buscarArticulosCompras")
   e.preventDefault();
   let filtro;
   let articulosEncontrados = [];
@@ -779,16 +649,13 @@ function buscarArticulosCompras(e){
 }
 
 function buscarArticulo(e){
-     //alert("0070")
   e.preventDefault();
-     //alert("0050")
   const idMenu = e.target.dataset.idMenu;
   //
   let resultadoBusqueda = false;
   let filtro;
   let articulosEncontrados = [];
   //
-     //alert("0060")
   switch(idMenu){
     case "idBuscarArticuloPorId":
       filtro = document.getElementById("idBuscarArticuloPorIdInput").value;
@@ -863,7 +730,6 @@ function buscarArticulo(e){
      articulosEncontrados.forEach(articulo => {htmlContenido += crearCard(articulo)});
      htmlContenido += `</div>`;
      tagContenido.innerHTML = htmlContenido;
-     //alert("0040")
   };
   //
   if (document.getElementById("idMainContenedorResultados")) {
@@ -899,7 +765,6 @@ function crearListado(idMenu){
 }
 
 function cargarListado(idMenu){
-  //console.log("cargarListado----: " + idMenu)
   let lista = []; 
   listaPrecioArticulos.forEach(articulo => lista.push(articulo));
   let htmlContenido=` `;
@@ -934,27 +799,26 @@ function cargarListado(idMenu){
 }
 
 function crearNodoDescuentoInput(idMenu){  
-      const tagMainListadoFila = document.createElement("div");
-      tagMainListadoFila.className = "mainListadoFila";
-      const tagLabel = document.createElement("label");
-      tagLabel.className = "labelGlobal";
-      tagLabel.setAttribute("for","idListarArticulosConDescuentoInputDescuento");
-      tagLabel.innerText ="Descuento: "
-      const tagInput = document.createElement("input");
-      tagInput.className = "inputGlobal";
-      tagInput.type = "number";
-      tagInput.id = "idListarArticulosConDescuentoInputDescuento";
-      tagInput.name = "listarArticulosConDescuentoInputDescuento";
-      tagInput.value = 0;
-      tagMainListadoFila.appendChild(tagLabel);
-      tagMainListadoFila.appendChild(tagInput);
-      const tagMainContenedorElementos = document.getElementById("idMainContenedorElementos");
-      tagMainContenedorElementos.insertBefore(tagMainListadoFila,document.getElementById("idMainContenedorListado"));
-      tagInput.addEventListener("input", () => cargarListado(idMenu));
+  const tagMainListadoFila = document.createElement("div");
+  tagMainListadoFila.className = "mainListadoFila";
+  const tagLabel = document.createElement("label");
+  tagLabel.className = "labelGlobal";
+  tagLabel.setAttribute("for","idListarArticulosConDescuentoInputDescuento");
+  tagLabel.innerText ="Descuento: "
+  const tagInput = document.createElement("input");
+  tagInput.className = "inputGlobal";
+  tagInput.type = "number";
+  tagInput.id = "idListarArticulosConDescuentoInputDescuento";
+  tagInput.name = "listarArticulosConDescuentoInputDescuento";
+  tagInput.value = 0;
+  tagMainListadoFila.appendChild(tagLabel);
+  tagMainListadoFila.appendChild(tagInput);
+  const tagMainContenedorElementos = document.getElementById("idMainContenedorElementos");
+  tagMainContenedorElementos.insertBefore(tagMainListadoFila,document.getElementById("idMainContenedorListado"));
+  tagInput.addEventListener("input", () => cargarListado(idMenu));
 }
 
 function crearCamposHtml(idMenu){
-  console.log("crearCamposHtml - ")
     let htmlContenido;
     switch(idMenu) {
       case "idCrearArticulo":
@@ -1050,10 +914,8 @@ function crearCamposHtml(idMenu){
         break;  
     };
     //
-    //if (!idMenu=="idListarArticulosConDescuento") {
-    //} else {
-      document.getElementById("idMainFormulario").innerHTML = htmlContenido;
-    //}
+    document.getElementById("idMainFormulario").innerHTML = htmlContenido;
+    //
 }
 
 function crearCampos(idMenu){
@@ -1139,66 +1001,12 @@ function crearPagina(e) {
   }
 }
 //
-const crearFormularioOpcion1 = document.getElementById((listaMenu.find(menu => menu.opcion == 1)).id);
-crearFormularioOpcion1.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 1)).id;
-crearFormularioOpcion1.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 1)).titulo;
-crearFormularioOpcion1.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 1)).clase;
-crearFormularioOpcion1.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion1.dataset.tagContenedor = "form";
-crearFormularioOpcion1.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion2 = document.getElementById((listaMenu.find(menu => menu.opcion == 2)).id);
-crearFormularioOpcion2.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 2)).id;
-crearFormularioOpcion2.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 2)).titulo;
-crearFormularioOpcion2.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 2)).clase;
-crearFormularioOpcion2.dataset.tipoContenedor = "Listado";
-crearFormularioOpcion2.dataset.tagContenedor = "div";
-crearFormularioOpcion2.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion3 = document.getElementById((listaMenu.find(menu => menu.opcion == 3)).id);
-crearFormularioOpcion3.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 3)).id;
-crearFormularioOpcion3.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 3)).titulo;
-crearFormularioOpcion3.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 3)).clase;
-crearFormularioOpcion3.dataset.tipoContenedor = "Listado";
-crearFormularioOpcion3.dataset.tagContenedor = "div";
-crearFormularioOpcion3.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion4 = document.getElementById((listaMenu.find(menu => menu.opcion == 4)).id);
-crearFormularioOpcion4.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 4)).id;
-crearFormularioOpcion4.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 4)).titulo;
-crearFormularioOpcion4.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 4)).clase;
-crearFormularioOpcion4.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion4.dataset.tagContenedor = "form";
-crearFormularioOpcion4.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion5 = document.getElementById((listaMenu.find(menu => menu.opcion == 5)).id);
-crearFormularioOpcion5.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 5)).id;
-crearFormularioOpcion5.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 5)).titulo;
-crearFormularioOpcion5.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 5)).clase;
-crearFormularioOpcion5.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion5.dataset.tagContenedor = "form";
-crearFormularioOpcion5.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion6 = document.getElementById((listaMenu.find(menu => menu.opcion == 6)).id);
-crearFormularioOpcion6.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 6)).id;
-crearFormularioOpcion6.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 6)).titulo;
-crearFormularioOpcion6.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 6)).clase;
-crearFormularioOpcion6.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion6.dataset.tagContenedor = "form";
-crearFormularioOpcion6.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion7 = document.getElementById((listaMenu.find(menu => menu.opcion == 7)).id);
-crearFormularioOpcion7.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 7)).id;
-crearFormularioOpcion7.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 7)).titulo;
-crearFormularioOpcion7.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 7)).clase;
-crearFormularioOpcion7.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion7.dataset.tagContenedor = "form";
-crearFormularioOpcion7.addEventListener("click", crearPagina);
-//
-const crearFormularioOpcion8 = document.getElementById((listaMenu.find(menu => menu.opcion == 8)).id);
-crearFormularioOpcion8.dataset.idMenu = (listaMenu.find(menu => menu.opcion == 8)).id;
-crearFormularioOpcion8.dataset.tituloMenu = (listaMenu.find(menu => menu.opcion == 8)).titulo;
-crearFormularioOpcion8.dataset.claseContenedor = (listaMenu.find(menu => menu.opcion == 8)).clase;
-crearFormularioOpcion8.dataset.tipoContenedor = "Formulario";
-crearFormularioOpcion8.dataset.tagContenedor = "form";
-crearFormularioOpcion8.addEventListener("click", crearPagina);
+listaMenu.forEach(menu => {
+  const crearFormularioOpcion = document.getElementById(menu.id);
+  crearFormularioOpcion.dataset.idMenu = menu.id;
+  crearFormularioOpcion.dataset.tituloMenu = menu.titulo;
+  crearFormularioOpcion.dataset.claseContenedor = menu.clase;
+  crearFormularioOpcion.dataset.tipoContenedor = menu.tipoContenedor;
+  crearFormularioOpcion.dataset.tagContenedor = menu.tagContenedor;
+  crearFormularioOpcion.addEventListener("click", crearPagina);  
+});
